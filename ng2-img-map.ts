@@ -126,14 +126,14 @@ export class ImgMapComponent {
     return {
       x: event.clientX - rect.left,
       y: event.clientY - rect.top
-    };
+    }
   }
 
   /**
    * Draw a marker.
    */
-  private drawMarker(pixel: Marker, markerState?: string, markerType?: string): void {
-    const context = this.canvas.nativeElement.getContext('2d');
+  private drawMarker(pixel: Marker, markerState?:string) : void {
+    var context = this.canvas.nativeElement.getContext('2d');
     context.beginPath();
     context.arc(pixel.x, pixel.y, this.markerRadius, 0, 2 * Math.PI);
 
@@ -145,47 +145,50 @@ export class ImgMapComponent {
         context.fillStyle = 'rgba(0, 0, 255, 0.6)'; // Blue
         break;
       default:
-        switch (markerType) {
-          case 'Advert':
-            context.fillStyle = 'rgba(0, 255, 0, 0.6)'; // Green
-            break;
-          case 'ATM':
-            context.fillStyle = 'rgb(0, 77, 0, 0.6)'; // Dark Green
-            break;
-          case 'Baby Change Room':
-            context.fillStyle = 'rgb(255, 0, 102, 0.6)'; // Magenta
-            break;
-          case 'Entrance':
-            context.fillStyle = 'rgb(102, 255, 255, 0.6)'; // Light Blue
-            break;
-          case 'Escalator':
-            context.fillStyle = 'rgb(255, 0, 255, 0.6)'; // Pink
-            break;
-          case 'Kiosk':
-            context.fillStyle = 'rgb(128, 128, 128, 0.6)'; // Grey
-            break;
-          case 'Lift':
-            context.fillStyle = 'rgb(255, 0, 255, 0.6)'; // Pink
-            break;
-          case 'Path':
-            context.fillStyle = 'rgb(255, 153, 51, 0.6)'; // Orange
-            break;
-          case 'Store':
-            context.fillStyle = 'rgba(0, 0, 0, 1)'; // Black
-            break;
-          case 'Text Point':
-            context.fillStyle = 'rrgb(102, 102, 51, 0.6)'; // Olivish
-            break;
-          case 'Toilet':
-            context.fillStyle = 'rgb(102, 51, 0, 0.6)'; // Brown
-            break;
-          default:
-            context.fillStyle = 'rgba(0, 0, 255, 0.4)'; // Blue
-        }
+        context.fillStyle = 'rgba(0, 0, 255, 0.4)'; // Blue
     }
 
+    if (pixel.type) {
+      switch (pixel.type) {
+        case 'Advert':
+          context.fillStyle = 'rgba(0, 255, 0, 0.6)'; // Green
+          break;
+        case 'ATM':
+          context.fillStyle = 'rgba(0, 77, 0, 0.6)'; // Dark Green
+          break;
+        case 'Baby Change Room':
+          context.fillStyle = 'rgba(255, 0, 102, 0.6)'; // Magenta
+          break;
+        case 'Entrance':
+          context.fillStyle = 'rgba(102, 255, 255, 0.6)'; // Light Blue
+          break;
+        case 'Escalator':
+          context.fillStyle = 'rgba(255, 0, 255, 0.6)'; // Pink
+          break;
+        case 'Kiosk':
+          context.fillStyle = 'rgba(128, 128, 128, 0.6)'; // Grey
+          break;
+        case 'Lift':
+          context.fillStyle = 'rgba(255, 0, 255, 0.6)'; // Pink
+          break;
+        case 'Path':
+          context.fillStyle = 'rgba(255, 153, 51, 0.6)'; // Orange
+          break;
+        case 'Store':
+          context.fillStyle = 'rgba(0, 0, 0, 1)'; // Black
+          break;
+        case 'Text Point':
+          context.fillStyle = 'rgba(102, 102, 51, 0.6)'; // Olivish
+          break;
+        case 'Toilet':
+          context.fillStyle = 'rgba(102, 51, 0, 0.6)'; // Brown
+          break;
+        default:
+          context.fillStyle = 'rgba(0, 0, 255, 0.4)'; // Blue
+      }
+    }
     context.fill();
-  }
+  };
 
   /**
    * Check if a position is inside a marker.
@@ -215,8 +218,8 @@ export class ImgMapComponent {
   private pixelToMarker(pixel: Marker): Marker {
     const image: HTMLImageElement = this.image.nativeElement;
     return {
-      x: (pixel[0] / image.clientWidth) * 100,
-      y: (pixel[1] / image.clientHeight) * 100,
+      x: (pixel.x / image.clientWidth) * 100,
+      y: (pixel.y / image.clientHeight) * 100,
       type: pixel.type
     };
   }
@@ -262,7 +265,7 @@ export class ImgMapComponent {
       } else if (this.markerHover === index) {
         this.drawMarker(pixel, 'hover');
       } else {
-        this.drawMarker(pixel, pixel.type);
+        this.drawMarker(pixel);
       }
     });
   }
