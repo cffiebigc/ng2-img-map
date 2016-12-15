@@ -132,7 +132,7 @@ export class ImgMapComponent {
   /**
    * Draw a marker.
    */
-  private drawMarker(pixel: Marker, markerState?:string) : void {
+  private drawMarker(pixel: Marker, markerState?:string, markerType?:string) : void {
     var context = this.canvas.nativeElement.getContext('2d');
     context.beginPath();
     context.arc(pixel.x, pixel.y, this.markerRadius, 0, 2 * Math.PI);
@@ -148,8 +148,8 @@ export class ImgMapComponent {
         context.fillStyle = 'rgba(0, 0, 255, 0.4)'; // Blue
     }
 
-    if (pixel.type) {
-      switch (pixel.type) {
+    if (markerType) {
+      switch (markerType) {
         case 'Advert':
           context.fillStyle = 'rgba(0, 255, 0, 0.6)'; // Green
           break;
@@ -265,7 +265,7 @@ export class ImgMapComponent {
       } else if (this.markerHover === index) {
         this.drawMarker(pixel, 'hover');
       } else {
-        this.drawMarker(pixel);
+        this.drawMarker(pixel, '', pixel.type);
       }
     });
   }

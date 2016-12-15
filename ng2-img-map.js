@@ -69,7 +69,7 @@ var ImgMapComponent = (function () {
     /**
      * Draw a marker.
      */
-    ImgMapComponent.prototype.drawMarker = function (pixel, markerState) {
+    ImgMapComponent.prototype.drawMarker = function (pixel, markerState, markerType) {
         var context = this.canvas.nativeElement.getContext('2d');
         context.beginPath();
         context.arc(pixel.x, pixel.y, this.markerRadius, 0, 2 * Math.PI);
@@ -83,8 +83,8 @@ var ImgMapComponent = (function () {
             default:
                 context.fillStyle = 'rgba(0, 0, 255, 0.4)'; // Blue
         }
-        if (pixel.type) {
-            switch (pixel.type) {
+        if (markerType) {
+            switch (markerType) {
                 case 'Advert':
                     context.fillStyle = 'rgba(0, 255, 0, 0.6)'; // Green
                     break;
@@ -197,7 +197,7 @@ var ImgMapComponent = (function () {
                 _this.drawMarker(pixel, 'hover');
             }
             else {
-                _this.drawMarker(pixel);
+                _this.drawMarker(pixel, '', pixel.type);
             }
         });
     };

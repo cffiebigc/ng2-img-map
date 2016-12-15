@@ -60,7 +60,7 @@ export declare class ImgMapComponent {
     /**
      * Draw a marker.
      */
-    private drawMarker(pixel, markerState?);
+    private drawMarker(pixel, markerState?, markerType?);
     /**
      * Check if a position is inside a marker.
      */
