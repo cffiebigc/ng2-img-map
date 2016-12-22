@@ -6,6 +6,8 @@ export interface Marker {
   x: number;
   y: number;
   type?: string;
+  level?: number;
+  linkedNodes?: Array<Marker>;
 }
 
 @Component({
@@ -130,6 +132,24 @@ export class ImgMapComponent {
   }
 
   /**
+   * Draw a line between markers
+   */
+  private drawLine(pixel: Marker): void {
+    var context = this.canvas.nativeElement.getContext('2d');
+
+    if (pixel.linkedNodes && pixel.linkedNodes.length) {
+      for (var i = 0; i < pixel.linkedNodes.length; i++) {
+        if (pixel.level === pixel.linkedNodes[i].level) {
+          context.beginPath();
+          context.moveTo(pixel.x, pixel.y);
+          context.lineTo(pixel.linkedNodes[i].x, pixel.linkedNodes[i].y);
+          context.stroke();
+        }
+      }
+    }
+  }
+
+  /**
    * Draw a marker.
    */
   private drawMarker(pixel: Marker, markerState?:string, markerType?:string) : void {
@@ -208,7 +228,9 @@ export class ImgMapComponent {
     return {
       x: (image.clientWidth / 100) * marker.x,
       y: (image.clientHeight / 100) * marker.y,
-      type: marker.type
+      type: marker.type,
+      level: marker.level,
+      linkedNodes: marker.linkedNodes
     };
   }
 
@@ -220,7 +242,9 @@ export class ImgMapComponent {
     return {
       x: (pixel.x / image.clientWidth) * 100,
       y: (pixel.y / image.clientHeight) * 100,
-      type: pixel.type
+      type: pixel.type,
+      level: pixel.level,
+      linkedNodes: pixel.linkedNodes
     };
   }
 
@@ -240,6 +264,13 @@ export class ImgMapComponent {
   private setPixels(): void {
     this.pixels = [];
     this.markers.forEach(marker => {
+      if (marker.linkedNodes) {
+        for (var i = 0; i < marker.linkedNodes.length; i++) {
+          if (marker.linkedNodes[i].x <= 100 && marker.linkedNodes[i].y <= 100) {
+            marker.linkedNodes[i] = this.markerToPixel(marker.linkedNodes[i]);
+          }
+        }
+      }
       this.pixels.push(this.markerToPixel(marker));
     });
   }
@@ -267,6 +298,8 @@ export class ImgMapComponent {
       } else {
         this.drawMarker(pixel, '', pixel.type);
       }
+
+      this.drawLine(pixel);
     });
   }
 
@@ -324,7 +357,6 @@ export class ImgMapComponent {
   onMouseout(event: MouseEvent): void {
     if (this.markerHover) {
       this.markerHover = null;
-      this.draw();
     }
   }
 

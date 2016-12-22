@@ -3,6 +3,8 @@ export interface Marker {
     x: number;
     y: number;
     type?: string;
+    level?: number;
+    linkedNodes?: Array<Marker>;
 }
 export declare class ImgMapComponent {
     private renderer;
@@ -57,6 +59,10 @@ export declare class ImgMapComponent {
      * Get the cursor position relative to the canvas.
      */
     private cursor(event);
+    /**
+     * Draw a line between markers
+     */
+    private drawLine(pixel);
     /**
      * Draw a marker.
      */

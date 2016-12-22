@@ -67,6 +67,22 @@ var ImgMapComponent = (function () {
         };
     };
     /**
+     * Draw a line between markers
+     */
+    ImgMapComponent.prototype.drawLine = function (pixel) {
+        var context = this.canvas.nativeElement.getContext('2d');
+        if (pixel.linkedNodes && pixel.linkedNodes.length) {
+            for (var i = 0; i < pixel.linkedNodes.length; i++) {
+                if (pixel.level === pixel.linkedNodes[i].level) {
+                    context.beginPath();
+                    context.moveTo(pixel.x, pixel.y);
+                    context.lineTo(pixel.linkedNodes[i].x, pixel.linkedNodes[i].y);
+                    context.stroke();
+                }
+            }
+        }
+    };
+    /**
      * Draw a marker.
      */
     ImgMapComponent.prototype.drawMarker = function (pixel, markerState, markerType) {
@@ -140,7 +156,9 @@ var ImgMapComponent = (function () {
         return {
             x: (image.clientWidth / 100) * marker.x,
             y: (image.clientHeight / 100) * marker.y,
-            type: marker.type
+            type: marker.type,
+            level: marker.level,
+            linkedNodes: marker.linkedNodes
         };
     };
     /**
@@ -151,7 +169,9 @@ var ImgMapComponent = (function () {
         return {
             x: (pixel.x / image.clientWidth) * 100,
             y: (pixel.y / image.clientHeight) * 100,
-            type: pixel.type
+            type: pixel.type,
+            level: pixel.level,
+            linkedNodes: pixel.linkedNodes
         };
     };
     /**
@@ -170,6 +190,13 @@ var ImgMapComponent = (function () {
         var _this = this;
         this.pixels = [];
         this.markers.forEach(function (marker) {
+            if (marker.linkedNodes) {
+                for (var i = 0; i < marker.linkedNodes.length; i++) {
+                    if (marker.linkedNodes[i].x <= 100 && marker.linkedNodes[i].y <= 100) {
+                        marker.linkedNodes[i] = _this.markerToPixel(marker.linkedNodes[i]);
+                    }
+                }
+            }
             _this.pixels.push(_this.markerToPixel(marker));
         });
     };
@@ -199,6 +226,7 @@ var ImgMapComponent = (function () {
             else {
                 _this.drawMarker(pixel, '', pixel.type);
             }
+            _this.drawLine(pixel);
         });
     };
     ImgMapComponent.prototype.onClick = function (event) {
@@ -256,7 +284,6 @@ var ImgMapComponent = (function () {
     ImgMapComponent.prototype.onMouseout = function (event) {
         if (this.markerHover) {
             this.markerHover = null;
-            this.draw();
         }
     };
     ImgMapComponent.prototype.onResize = function (event) {
