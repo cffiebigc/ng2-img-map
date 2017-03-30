@@ -69,7 +69,7 @@ export class ImgMapComponent {
    * Radius of the markers.
    */
   @Input()
-  markerRadius: number = 10;
+  markerRadius: number = 4;
 
   /**
    * Image source URL.
@@ -81,13 +81,13 @@ export class ImgMapComponent {
    * On change event.
    */
   @Output('change')
-  changeEvent = new EventEmitter<number[]>();
+  changeEvent = new EventEmitter<any>();
 
   /**
    * On mark event.
    */
   @Output('mark')
-  markEvent = new EventEmitter<number[]>();
+  markEvent = new EventEmitter<any>();
 
   /**
    * Collection of markers.

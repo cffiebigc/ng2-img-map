@@ -1,4 +1,4 @@
-import { Renderer } from '@angular/core';
+import { EventEmitter, Renderer } from '@angular/core';
 export interface Marker {
     x: number;
     y: number;
@@ -32,11 +32,11 @@ export declare class ImgMapComponent {
     /**
      * On change event.
      */
-    changeEvent: any;
+    changeEvent: EventEmitter<any>;
     /**
      * On mark event.
      */
-    markEvent: any;
+    markEvent: EventEmitter<any>;
     /**
      * Collection of markers.
      */

@@ -15,7 +15,7 @@ var ImgMapComponent = (function () {
         /**
          * Radius of the markers.
          */
-        this.markerRadius = 10;
+        this.markerRadius = 4;
         /**
          * On change event.
          */
@@ -291,15 +291,15 @@ var ImgMapComponent = (function () {
     };
     __decorate([
         core_1.ViewChild('canvas'), 
-        __metadata('design:type', (typeof (_a = typeof core_1.ElementRef !== 'undefined' && core_1.ElementRef) === 'function' && _a) || Object)
+        __metadata('design:type', core_1.ElementRef)
     ], ImgMapComponent.prototype, "canvas", void 0);
     __decorate([
         core_1.ViewChild('container'), 
-        __metadata('design:type', (typeof (_b = typeof core_1.ElementRef !== 'undefined' && core_1.ElementRef) === 'function' && _b) || Object)
+        __metadata('design:type', core_1.ElementRef)
     ], ImgMapComponent.prototype, "container", void 0);
     __decorate([
         core_1.ViewChild('image'), 
-        __metadata('design:type', (typeof (_c = typeof core_1.ElementRef !== 'undefined' && core_1.ElementRef) === 'function' && _c) || Object)
+        __metadata('design:type', core_1.ElementRef)
     ], ImgMapComponent.prototype, "image", void 0);
     __decorate([
         core_1.Input('markers'), 
@@ -332,10 +332,9 @@ var ImgMapComponent = (function () {
             ],
             template: "\n    <div\n      class=\"img-map\"\n      #container\n      (window:resize)=\"onResize($event)\"\n    >\n      <img\n        #image\n        [src]=\"src\"\n        (load)=\"onLoad($event)\"\n      >\n      <canvas\n        #canvas\n        (click)=\"onClick($event)\"\n        (mousemove)=\"onMousemove($event)\"\n        (mouseout)=\"onMouseout($event)\"\n      ></canvas>\n    </div>\n  "
         }), 
-        __metadata('design:paramtypes', [(typeof (_d = typeof core_1.Renderer !== 'undefined' && core_1.Renderer) === 'function' && _d) || Object])
+        __metadata('design:paramtypes', [core_1.Renderer])
     ], ImgMapComponent);
     return ImgMapComponent;
-    var _a, _b, _c, _d;
 }());
 exports.ImgMapComponent = ImgMapComponent;
 //# sourceMappingURL=ng2-img-map.js.map
