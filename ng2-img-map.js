@@ -129,7 +129,7 @@ var ImgMapComponent = (function () {
                     context.fillStyle = 'rgba(0, 0, 0, 1)'; // Black
                     break;
                 case 'Text Point':
-                    context.fillStyle = 'rgba(0, 0, 0, 1)'; // Black
+                    context.fillStyle = 'rgba(102, 102, 51, 0.6)'; // Olivish
                     break;
                 case 'Toilet':
                     context.fillStyle = 'rgba(102, 51, 0, 0.6)'; // Brown
