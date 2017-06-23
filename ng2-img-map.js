@@ -166,9 +166,11 @@ var ImgMapComponent = (function () {
      */
     ImgMapComponent.prototype.pixelToMarker = function (pixel) {
         var image = this.image.nativeElement;
+        var xPixel = Math.round((pixel.x / image.clientWidth) * 100);
+        var yPixel = Math.round((pixel.y / image.clientHeight) * 100);
         return {
-            x: (pixel.x / image.clientWidth) * 100,
-            y: (pixel.y / image.clientHeight) * 100,
+            x: xPixel,
+            y: yPixel,
             type: pixel.type,
             level: pixel.level,
             linkedNodes: pixel.linkedNodes
